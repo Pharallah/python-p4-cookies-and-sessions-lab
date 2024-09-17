@@ -42,11 +42,14 @@ def index_articles():
 def show_article(id):
     article = Article.query.filter(Article.id == id).first()
     
+    # This looks for an existing page_views. If not found, meaning it's the first request, then it sets it to 0
     session['page_views'] = session.get('page_views') or 0
 
+    # Increments the page_views for every request
     session['page_views'] += 1
 
-    while session['page_views'] <= 3:
+    # Conditional to display article data as long as page_views is 3 or less
+    if session['page_views'] <= 3:
         article_dict = {
             'author': article.author,
             'title': article.title,
